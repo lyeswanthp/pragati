@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pragati, IKEA date?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;600&display=swap">
+<style>
+  /* Layout: one tall phone-first column. A paper invitation card floats over a blush dusk sky of drifting hearts;
+     the card borrows the IKEA product-tag and assembly-manual language, kept soft and romantic. Single committed look. */
+  :root {
+    --sky-top: #fde6ec;
+    --sky-bottom: #f4c9d6;
+    --paper: #fffaf7;
+    --paper-edge: #f1d9df;
+    --ink: #4b2735;
+    --muted: #8d6474;
+    --rose: #e2446f;
+    --rose-deep: #c82f5c;
+    --rose-soft: #fbe3ea;
+    --blue: #0058a3;
+    --yellow: #ffd24d;
+    --font-display: "Cormorant Garamond", "Georgia", "Times New Roman", serif;
+    --font-body: "Nunito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --font-hand: "Caveat", "Bradley Hand", "Segoe Script", cursive;
+    color-scheme: light;
+  }
+
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body {
+    margin: 0;
+    min-height: 100%;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 100%);
+    padding-block: 28px 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #sky {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    max-width: 440px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--paper-edge);
+    border-radius: 22px;
+    padding: 26px 22px 28px;
+    box-shadow: 0 24px 60px -30px rgba(120, 40, 70, .45), 0 2px 0 #fff inset;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: rise .9s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+  /* product tag */
+  .tag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border: 2px solid var(--blue);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: #fff;
+  }
+  .tag .price {
+    background: var(--yellow);
+    color: var(--ink);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: .06em;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .greeting {
+    font-family: var(--font-hand);
+    font-size: 30px;
+    color: var(--rose-deep);
+    line-height: 1;
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(36px, 10vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1 em { color: var(--rose); font-style: italic; }
+
+  .note { display: flex; flex-direction: column; gap: 12px; }
+  .lede {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 36ch;
+  }
+
+  /* assembly manual */
+  .manual {
+    border: 1.5px solid var(--ink);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .manual-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1.5px solid var(--ink);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .manual-head svg { flex: none; }
+  .manual ol {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+  }
+  .manual li {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .manual li + li { border-top: 1px dashed var(--paper-edge); }
+  .manual li .n {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--rose);
+    text-align: center;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .manual li b { font-weight: 800; }
+  .manual-foot {
+    padding: 8px 14px 10px;
+    border-top: 1.5px solid var(--ink);
+    font-family: var(--font-hand);
+    font-size: 19px;
+    color: var(--muted);
+  }
+
+  /* answer area */
+  .answer {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 72px;
+    padding-top: 4px;
+  }
+  .btn {
+    appearance: none;
+    border: 0;
+    font-family: var(--font-body);
+    font-weight: 800;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s;
+    touch-action: manipulation;
+    user-select: none;
+  }
+  .btn:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  #yes {
+    background: var(--rose);
+    color: #fff;
+    font-size: 18px;
+    padding: 16px 34px;
+    box-shadow: 0 12px 26px -10px rgba(226,68,111,.7);
+    transform: scale(var(--grow, 1));
+    transform-origin: center;
+  }
+  #yes:hover { background: var(--rose-deep); }
+  #yes:active { transform: scale(calc(var(--grow, 1) * .96)); }
+  #no {
+    background: #fff;
+    color: var(--muted);
+    border: 1.5px solid var(--paper-edge);
+    font-size: 15px;
+    padding: 12px 22px;
+    z-index: 5;
+  }
+  #no.loose {
+    position: fixed;
+    margin: 0;
+  }
+
+  .hint {
+    text-align: center;
+    margin: 0;
+    font-family: var(--font-hand);
+    font-size: 20px;
+    color: var(--muted);
+    min-height: 1.3em;
+  }
+
+  /* yes! state */
+  .celebrate { text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+  .celebrate .big {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(40px, 12vw, 56px);
+    line-height: 1;
+    margin: 0;
+    color: var(--rose);
+    text-wrap: balance;
+  }
+  .celebrate p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.55; max-width: 32ch; }
+  .celebrate .ticket {
+    width: 100%;
+    border: 1.5px dashed var(--blue);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: #fff;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+    text-align: left;
+  }
+  .celebrate .ticket div { min-width: 0; }
+  .celebrate .ticket small {
+    display: block;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--blue);
+    margin-bottom: 2px;
+  }
+  .celebrate .ticket span { font-weight: 700; font-size: 15px; }
+  .celebrate .sign {
+    font-family: var(--font-hand);
+    font-size: 26px;
+    color: var(--rose-deep);
+  }
+
+  .foot {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin: 18px auto 0;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .06em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { animation: none; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main class="card" id="card">
+  <div class="tag" aria-label="Product tag">
+    <span>Art. no. 001 · First date</span>
+  </div>
+
+  <p class="greeting">Dear Pragati,</p>
+
+  <h1>Will you go on an <em>IKEA date</em> with me?</h1>
+
+  <div class="note">
+    <p class="lede">
+      We have been friends for so long. You already know how I treat you, how I respect you,
+      and the way I see you. We have watched movies together and eaten out together, and every one
+      of those days felt easy.
+    </p>
+    <p class="lede">
+      But something has changed. We are not just friends anymore. We are seeing each other,
+      and I want to begin this chapter the right way.
+    </p>
+    <p class="lede">
+      So for our first date, I want to show you who I am. My taste. How long I can happily wander
+      beside you while you shop. How well I listen to you, and how gently I try to convince you.
+      I can think of no better place for that than IKEA, with its hundred little rooms to get lost in.
+    </p>
+    <p class="lede">
+      Let it be a day where you get to know me a little more, so that the two of us can
+      keep moving forward, together.
+    </p>
+  </div>
+
+  <div class="answer" id="answer">
+    <button class="btn" id="yes" type="button">Yes, let's go! 💛</button>
+    <button class="btn" id="no" type="button">No</button>
+  </div>
+  <p class="hint" id="hint">Pssst, one of these buttons is a little shy.</p>
+</main>
+
+<p class="foot">Made with love for my momo ♥</p>
+
+<script>
+(function () {
+  var yes = document.getElementById('yes');
+  var no = document.getElementById('no');
+  var hint = document.getElementById('hint');
+  var card = document.getElementById('card');
+  var dodges = 0;
+
+  var noLabels = ['No', 'Nope?', 'Are you sure?', 'Try again 🙈', 'Too slow!', 'Really, momo?', 'Catch me!', 'Nice try', 'Pretty please?', 'Last chance', 'Just press yes 💛'];
+  var hints = [
+    'Pssst, one of these buttons is a little shy.',
+    'Hmm, that one keeps slipping away.',
+    'The other button is getting bigger, just saying.',
+    'It knows what you really want to press.',
+    'The momos are getting cold, Pragati.',
+    'You are very persistent, I like that about you.',
+    'Still running? So am I, right beside you.',
+    'Imagine how good the couches are going to feel.',
+    'Okay okay, I will make it easy for you.'
+  ];
+
+  function moveNo() {
+    dodges++;
+    no.classList.add('loose');
+    var pad = 12;
+    var w = no.offsetWidth, h = no.offsetHeight;
+    var maxX = window.innerWidth - w - pad;
+    var maxY = window.innerHeight - h - pad;
+    var x, y, tries = 0;
+    // keep it away from the yes button so she cannot miss by accident
+    var yr = yes.getBoundingClientRect();
+    do {
+      x = pad + Math.random() * Math.max(0, maxX - pad);
+      y = pad + Math.random() * Math.max(0, maxY - pad);
+      tries++;
+    } while (tries < 12 && x < yr.right + 20 && x + w > yr.left - 20 && y < yr.bottom + 20 && y + h > yr.top - 20);
+    no.style.left = x + 'px';
+    no.style.top = y + 'px';
+    no.textContent = noLabels[Math.min(dodges, noLabels.length - 1)];
+    var grow = Math.min(1 + dodges * 0.07, 1.6);
+    yes.style.setProperty('--grow', grow);
+    hint.textContent = hints[Math.min(dodges, hints.length - 1)];
+    if (dodges >= 8) { no.style.opacity = Math.max(0.3, 1 - (dodges - 7) * 0.25); }
+    if (dodges >= 10) { no.hidden = true; hint.textContent = 'Only one option left, Pragati 💛'; }
+  }
+
+  // desktop: run on hover; mobile: run the moment a finger lands, before a click can register
+  no.addEventListener('pointerenter', moveNo);
+  no.addEventListener('pointerdown', function (e) { e.preventDefault(); moveNo(); });
+  no.addEventListener('touchstart', function (e) { e.preventDefault(); moveNo(); }, { passive: false });
+  no.addEventListener('click', function (e) { e.preventDefault(); moveNo(); });
+  no.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); moveNo(); yes.focus(); } });
+
+  yes.addEventListener('click', function () {
+    no.hidden = true;
+    burst();
+    card.innerHTML =
+      '<div class="tag"><span>Order confirmed · Art. no. 001</span><span class="price">She said yes</span></div>' +
+      '<div class="celebrate">' +
+        '<h2 class="big">Yes!! 💛</h2>' +
+        '<p>You just made my whole week, Pragati. I will see you very soon. Wear comfy shoes, those showrooms go on forever.</p>' +
+        '<div class="ticket">' +
+          '<div><small>Date with</small><span>Pragati</span></div>' +
+          '<div><small>Where</small><span>IKEA</span></div>' +
+          '<div><small>When</small><span>Today</span></div>' +
+          '<div><small>Dress code</small><span>Comfy shoes</span></div>' +
+          '<div><small>Menu</small><span>Momos and ramen</span></div>' +
+          '<div><small>Mood</small><span>Butterflies</span></div>' +
+        '</div>' +
+        '<div class="sign">Can\'t wait. ♥</div>' +
+      '</div>';
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ---------- drifting hearts sky ---------- */
+  var canvas = document.getElementById('sky');
+  var ctx = canvas.getContext('2d');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hearts = [], confetti = [], W, H, dpr;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function drawHeart(x, y, s, color, alpha, rot) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot || 0);
+    ctx.scale(s, s);
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(0, 0.35);
+    ctx.bezierCurveTo(0, 0.1, -0.45, -0.15, -0.5, 0.05);
+    ctx.bezierCurveTo(-0.55, 0.3, -0.2, 0.55, 0, 0.8);
+    ctx.bezierCurveTo(0.2, 0.55, 0.55, 0.3, 0.5, 0.05);
+    ctx.bezierCurveTo(0.45, -0.15, 0, 0.1, 0, 0.35);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  var palette = ['#f3a3bb', '#e2446f', '#ffd24d', '#ffffff', '#f7c7d5'];
+  for (var i = 0; i < 26; i++) {
+    hearts.push({
+      x: Math.random() * W, y: Math.random() * H,
+      s: 10 + Math.random() * 22, v: 0.15 + Math.random() * 0.35,
+      sway: Math.random() * Math.PI * 2, color: palette[i % palette.length],
+      a: 0.25 + Math.random() * 0.4
+    });
+  }
+
+  function burst() {
+    for (var i = 0; i < 90; i++) {
+      confetti.push({
+        x: W / 2, y: H / 2,
+        vx: (Math.random() - 0.5) * 14, vy: -4 - Math.random() * 12,
+        s: 10 + Math.random() * 18, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3,
+        color: palette[Math.floor(Math.random() * palette.length)], life: 1
+      });
+    }
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < hearts.length; i++) {
+      var h = hearts[i];
+      if (!reduced) { h.y -= h.v; h.sway += 0.01; }
+      var x = h.x + Math.sin(h.sway) * 12;
+      drawHeart(x, h.y, h.s, h.color, h.a, Math.sin(h.sway) * 0.2);
+      if (h.y < -40) { h.y = H + 40; h.x = Math.random() * W; }
+    }
+    for (var j = confetti.length - 1; j >= 0; j--) {
+      var c = confetti[j];
+      c.x += c.vx; c.y += c.vy; c.vy += 0.35; c.vx *= 0.99; c.rot += c.vr; c.life -= 0.008;
+      drawHeart(c.x, c.y, c.s, c.color, Math.max(0, c.life), c.rot);
+      if (c.life <= 0 || c.y > H + 60) confetti.splice(j, 1);
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
